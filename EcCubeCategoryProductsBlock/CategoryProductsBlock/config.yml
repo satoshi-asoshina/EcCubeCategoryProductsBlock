@@ -1,0 +1,10 @@
+name: カテゴリー別商品一覧ブロック
+code: CategoryProductsBlock
+version: 1.0.0
+
+# ブロック設定
+blocks:
+    - name: カテゴリー別商品一覧
+      file_name: category_products
+      use_controller: true
+      deletable: false

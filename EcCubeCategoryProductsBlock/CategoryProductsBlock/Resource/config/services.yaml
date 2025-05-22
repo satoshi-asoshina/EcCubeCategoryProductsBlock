@@ -1,0 +1,63 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Plugin\CategoryProductsBlock\:
+        resource: '../../../CategoryProductsBlock/*'
+        exclude: '../../../CategoryProductsBlock/{Entity,Resource,tests}'
+
+    Plugin\CategoryProductsBlock\Controller\:
+        resource: '../../../CategoryProductsBlock/Controller'
+        tags: ['controller.service_arguments']
+
+    Plugin\CategoryProductsBlock\Form\Type\:
+        resource: '../../../CategoryProductsBlock/Form/Type'
+        tags: ['form.type']
+
+    Plugin\CategoryProductsBlock\Repository\ConfigRepository:
+        factory: ['@Doctrine\ORM\EntityManagerInterface', getRepository]
+        arguments:
+            - Plugin\CategoryProductsBlock\Entity\Config
+    
+    Plugin\CategoryProductsBlock\Asset\CategoryProductsBlockAsset:
+        arguments:
+            - '@Eccube\Asset\TemplateAsset'
+            - '@kernel'
+        tags:
+            - { name: eccube.asset, priority: 500 }
+
+    Plugin\CategoryProductsBlock\Twig\CategoryProductsExtension:
+        arguments:
+            - '@Eccube\Repository\CategoryRepository'
+            - '@Eccube\Repository\ProductRepository'
+            - '@Plugin\CategoryProductsBlock\Repository\ConfigRepository'
+            - '@twig'
+        tags:
+            - { name: twig.extension }
+
+    Plugin\CategoryProductsBlock\EventSubscriber\CategoryProductsBlockSubscriber:
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Plugin\CategoryProductsBlock\Twig\NavExtension:
+        tags:
+            - { name: twig.extension }
+
+    Plugin\CategoryProductsBlock\EventSubscriber\AdminNavSubscriber:
+        arguments:
+            - '@logger'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Plugin\CategoryProductsBlock\Controller\CategoryProductsController:
+        arguments:
+            - '@Eccube\Repository\CategoryRepository'
+            - '@Eccube\Repository\ProductRepository'
+            - '@Plugin\CategoryProductsBlock\Repository\ConfigRepository'
+            - '@logger'
+        tags:
+            - { name: 'controller.service_arguments' }

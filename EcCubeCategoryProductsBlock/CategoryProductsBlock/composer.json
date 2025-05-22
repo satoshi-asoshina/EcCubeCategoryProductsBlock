@@ -1,0 +1,17 @@
+{
+  "name": "ec-cube/category-products-block",
+  "version": "1.0.0",
+  "description": "カテゴリー別商品一覧ブロック",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.7 || ^2.0"
+  },
+  "extra": {
+    "code": "CategoryProductsBlock"
+  },
+  "autoload": {
+    "psr-4": {
+      "Plugin\\CategoryProductsBlock\\": "/"
+    }
+  }
+}

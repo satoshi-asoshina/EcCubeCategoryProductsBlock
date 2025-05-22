@@ -1,0 +1,24 @@
+{# Resource/template/admin/nav.twig #}
+{% set plugin_nav = category_products_block_nav() %}
+
+{# EC-CUBE 5に合わせたスタイル #}
+<li class="nav-item">
+    <a class="nav-link{% if active_menus(plugin_nav.id) %} active{% endif %}"
+       href="#{{ plugin_nav.id }}" data-bs-toggle="collapse"
+       aria-expanded="{{ active_menus(plugin_nav.id) ? 'true' : 'false' }}"
+       aria-controls="{{ plugin_nav.id }}">
+        <i class="fa {{ plugin_nav.icon }} fa-fw me-2"></i>
+        <span>{{ plugin_nav.name }}</span>
+    </a>
+    <ul class="collapse{% if active_menus(plugin_nav.id) %} show{% endif %}"
+        id="{{ plugin_nav.id }}">
+        {% for child in plugin_nav.children %}
+            <li>
+                <a class="nav-link{% if active_menus(child.id) %} active{% endif %}"
+                   href="{{ url(child.url) }}">
+                    {{ child.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</li>

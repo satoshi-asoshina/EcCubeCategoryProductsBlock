@@ -1,0 +1,90 @@
+{# @CategoryProductsBlock/category_tags.twig #}
+<div class="ec-categoryTagsContainer" id="{{ randomId }}">
+    <div class="ec-categoryTags">
+        {% for Cat in Categories %}
+            <a href="{{ url('product_list', {'category_id': Cat.id}) }}" 
+               class="ec-categoryTag {% if Cat.id == CurrentCategory.id %}is-active{% endif %}">
+                {{ Cat.name }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .ec-categoryTagsContainer {
+        margin: 15px 0;
+    }
+    
+    .ec-categoryTags {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+        position: relative;
+        overflow-x: auto;
+        scrollbar-width: none; /* Firefox用 */
+        -ms-overflow-style: none; /* IE・Edge用 */
+        padding: 5px 0;
+    }
+    
+    .ec-categoryTags::-webkit-scrollbar {
+        display: none; /* Chrome・Safari用 */
+    }
+    
+    .ec-categoryTags--scrollable {
+        flex-wrap: nowrap;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+        padding: 5px 10px;
+    }
+    
+    .ec-categoryTag {
+        padding: 5px 15px;
+        margin: 0 5px 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        background: #fff;
+        cursor: pointer;
+        text-decoration: none;
+        color: #333;
+        white-space: nowrap;
+        transition: all 0.3s;
+        scroll-snap-align: start;
+    }
+    
+    .ec-categoryTag:hover {
+        background: #f7f7f7;
+        text-decoration: none;
+        color: #333;
+    }
+    
+    .ec-categoryTag.is-active {
+        background: #525263;
+        color: #fff;
+        border-color: #525263;
+    }
+    
+    .ec-categoryTags__scrollBtn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .ec-categoryTags__scrollBtn--left {
+        left: 0;
+    }
+    
+    .ec-categoryTags__scrollBtn--right {
+        right: 0;
+    }
+</style>

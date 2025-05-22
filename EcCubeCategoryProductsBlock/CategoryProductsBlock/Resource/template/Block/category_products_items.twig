@@ -1,0 +1,116 @@
+{# @CategoryProductsBlock/Block/category_products_items.twig #}
+{% if displayStyle == 'grid' %}
+    {# グリッド表示 #}
+    <div class="ec-productGrid" style="grid-template-columns: repeat({{ colNum }}, 1fr); grid-template-rows: repeat({{ rowNum }}, auto);">
+        {% for Product in Products %}
+            <div class="ec-productItem">
+                <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                    <div class="ec-productImage">
+                        {% if Product.main_list_image %}
+                            <img src="{{ asset(Product.main_list_image|imagine_filter('list_product_image')) }}" alt="{{ Product.name }}">
+                        {% else %}
+                            <img src="{{ asset('noimage_list.jpg')|imagine_filter('list_product_image') }}" alt="{{ Product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="ec-productContent">
+                        <div class="ec-productName">{{ Product.name }}</div>
+                        <div class="ec-productPrice">
+                            {% if Product.hasProductClass %}
+                                {% if Product.getPrice01Min is not null and Product.getPrice01Min == Product.getPrice01Max %}
+                                    <span class="ec-price">
+                                        <span class="ec-priceRegular">{{ Product.getPrice01IncTaxMin|price }}</span>
+                                    </span>
+                                {% endif %}
+                                {% if Product.getPrice02Min is not null and Product.getPrice02Min == Product.getPrice02Max %}
+                                    <span class="ec-price">
+                                        {{ Product.getPrice02IncTaxMin|price }}
+                                    </span>
+                                {% else %}
+                                    <span class="ec-price">
+                                        {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}
+                                    </span>
+                                {% endif %}
+                            {% else %}
+                                {% if Product.getPrice01Max is not null %}
+                                    <span class="ec-price">
+                                        <span class="ec-priceRegular">{{ Product.getPrice01IncTaxMin|price }}</span>
+                                    </span>
+                                {% endif %}
+                                <span class="ec-price">
+                                    {{ Product.getPrice02IncTaxMin|price }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% else %}
+            <div class="ec-emptyMessage">
+                {% if Category is not null and Category is not same as(0) and Category is not same as('0') %}
+                    <p>{{ Category.name ?? '選択したカテゴリー' }}の商品が見つかりません</p>
+                {% else %}
+                    <p>商品が見つかりません</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    {# リスト表示 #}
+    <div class="ec-productList">
+        {% for Product in Products %}
+            <div class="ec-productListItem">
+                <a href="{{ url('product_detail', {'id': Product.id}) }}" class="ec-productListItem__link">
+                    <div class="ec-productListItem__image">
+                        {% if Product.main_list_image %}
+                            <img src="{{ asset(Product.main_list_image|imagine_filter('list_product_image')) }}" alt="{{ Product.name }}">
+                        {% else %}
+                            <img src="{{ asset('noimage_list.jpg')|imagine_filter('list_product_image') }}" alt="{{ Product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="ec-productListItem__content">
+                        <div class="ec-productListItem__name">{{ Product.name }}</div>
+                        <div class="ec-productListItem__price">
+                            {% if Product.hasProductClass %}
+                                {% if Product.getPrice01Min is not null and Product.getPrice01Min == Product.getPrice01Max %}
+                                    <span class="ec-price">
+                                        <span class="ec-priceRegular">{{ Product.getPrice01IncTaxMin|price }}</span>
+                                    </span>
+                                {% endif %}
+                                {% if Product.getPrice02Min is not null and Product.getPrice02Min == Product.getPrice02Max %}
+                                    <span class="ec-price">
+                                        {{ Product.getPrice02IncTaxMin|price }}
+                                    </span>
+                                {% else %}
+                                    <span class="ec-price">
+                                        {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}
+                                    </span>
+                                {% endif %}
+                            {% else %}
+                                {% if Product.getPrice01Max is not null %}
+                                    <span class="ec-price">
+                                        <span class="ec-priceRegular">{{ Product.getPrice01IncTaxMin|price }}</span>
+                                    </span>
+                                {% endif %}
+                                <span class="ec-price">
+                                    {{ Product.getPrice02IncTaxMin|price }}
+                                </span>
+                            {% endif %}
+                        </div>
+                        {# <div class="ec-productListItem__description">
+                            {{ Product.description_list|raw|nl2br }}
+                        </div> #}
+                        {% if Product.description_list %}
+                            <div class="ec-productListItem__description">
+                                {{ Product.description_list|raw|nl2br }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+        {% else %}
+            <div class="ec-emptyMessage">
+                <p>{{ Category.name }}の商品が見つかりません</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

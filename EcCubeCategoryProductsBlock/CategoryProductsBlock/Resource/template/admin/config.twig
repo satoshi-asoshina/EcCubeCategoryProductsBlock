@@ -1,0 +1,121 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['setting', 'category_products_block_admin_config'] %}
+
+{% block title %}カテゴリー商品ブロック設定{% endblock %}
+{% block sub_title %}ブロック管理{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block main %}
+    <form role="form" method="post">
+        {{ form_widget(form._token) }}
+        
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                 title="カテゴリー別商品一覧ブロックの設定">
+                                <span class="card-title">
+                                    ブロック設定
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <span>{{ form_label(form.display_num) }}</span>
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="カテゴリーごとに表示する商品の件数を設定します。">
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    {{ form_widget(form.display_num) }}
+                                    {{ form_errors(form.display_num) }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3">
+                                    <span>{{ form_label(form.row_num) }}</span>
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="商品を表示する行数を設定します。">
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    {{ form_widget(form.row_num) }}
+                                    {{ form_errors(form.row_num) }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3">
+                                    <span>{{ form_label(form.col_num) }}</span>
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="商品を表示する列数を設定します。">
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    {{ form_widget(form.col_num) }}
+                                    {{ form_errors(form.col_num) }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3">
+                                    <span>{{ form_label(form.default_category) }}</span>
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="初期表示するカテゴリーを設定します。設定しない場合は、最初のカテゴリーが選択されます。">
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    {{ form_widget(form.default_category) }}
+                                    {{ form_errors(form.default_category) }}
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-3">
+                                    <span>{{ form_label(form.display_style) }}</span>
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="商品の表示スタイルを設定します。">
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    {{ form_widget(form.display_style) }}
+                                    {{ form_errors(form.display_style) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="c-conversionArea">
+            <div class="c-conversionArea__container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-6">
+                        <div class="c-conversionArea__leftBlockItem">
+                            <a class="c-baseLink" href="{{ url('admin_setting_shop') }}">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                                <span>設定一覧</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-ec-conversion px-5" type="submit">登録</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,116 @@
+{# @CategoryProductsBlock/related_products.twig #}
+<div class="ec-relatedProductsRole">
+    <h3 class="ec-relatedProductsRole__title">{{ Category.name }}の関連商品</h3>
+    
+    <div class="ec-relatedProductsRole__list">
+        {% for Product in RelatedProducts %}
+            <div class="ec-relatedProductsRole__listItem">
+                <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                    <div class="ec-relatedProductsRole__listItemImage">
+                        {% if Product.main_list_image %}
+                            <img src="{{ asset(Product.main_list_image|imagine_filter('list_product_image')) }}" alt="{{ Product.name }}">
+                        {% else %}
+                            <img src="{{ asset('noimage_list.jpg')|imagine_filter('list_product_image') }}" alt="{{ Product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="ec-relatedProductsRole__listItemContent">
+                        <div class="ec-relatedProductsRole__listItemTitle">{{ Product.name }}</div>
+                        <div class="ec-relatedProductsRole__listItemPrice">
+                            {% if Product.hasProductClass %}
+                                {% if Product.getPrice02Min is not null and Product.getPrice02Min == Product.getPrice02Max %}
+                                    <span class="ec-price">
+                                        {{ Product.getPrice02IncTaxMin|price }}
+                                    </span>
+                                {% else %}
+                                    <span class="ec-price">
+                                        {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}
+                                    </span>
+                                {% endif %}
+                            {% else %}
+                                <span class="ec-price">
+                                    {{ Product.getPrice02IncTaxMin|price }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .ec-relatedProductsRole {
+        margin: 30px 0;
+    }
+    
+    .ec-relatedProductsRole__title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    .ec-relatedProductsRole__list {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -10px;
+    }
+    
+    .ec-relatedProductsRole__listItem {
+        width: calc(20% - 20px);
+        margin: 0 10px 20px;
+    }
+    
+    @media screen and (max-width: 992px) {
+        .ec-relatedProductsRole__listItem {
+            width: calc(25% - 20px);
+        }
+    }
+    
+    @media screen and (max-width: 768px) {
+        .ec-relatedProductsRole__listItem {
+            width: calc(33.333% - 20px);
+        }
+    }
+    
+    @media screen and (max-width: 576px) {
+        .ec-relatedProductsRole__listItem {
+            width: calc(50% - 20px);
+        }
+    }
+    
+    .ec-relatedProductsRole__listItem a {
+        display: block;
+        text-decoration: none;
+        color: #525263;
+    }
+    
+    .ec-relatedProductsRole__listItemImage {
+        margin-bottom: 10px;
+    }
+    
+    .ec-relatedProductsRole__listItemImage img {
+        width: 100%;
+        height: auto;
+        transition: opacity 0.3s;
+    }
+    
+    .ec-relatedProductsRole__listItem a:hover .ec-relatedProductsRole__listItemImage img {
+        opacity: 0.8;
+    }
+    
+    .ec-relatedProductsRole__listItemTitle {
+        font-size: 14px;
+        margin-bottom: 5px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    
+    .ec-relatedProductsRole__listItemPrice {
+        font-size: 14px;
+        font-weight: bold;
+    }
+</style>

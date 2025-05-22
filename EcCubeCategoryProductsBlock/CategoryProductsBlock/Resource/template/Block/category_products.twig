@@ -1,0 +1,74 @@
+{# @CategoryProductsBlock/Block/category_products.twig #}
+<div class="ec-categoryProductsBlock">
+    {# カテゴリータグ一覧 #}
+    <div class="ec-categoryTags">
+        {% for Category in Categories %}
+            {% if Category is not null and is_object(Category) and method_exists(Category, 'getId') %}
+                <button 
+                    class="ec-categoryTag {% if CurrentCategory is not null and is_object(CurrentCategory) and CurrentCategory.id == Category.id %}is-active{% endif %}" 
+                    data-category-id="{{ Category.id }}">
+                    {{ Category.name }}
+                </button>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryTags = document.querySelectorAll('.ec-categoryTag');
+        const productItemsContainer = document.getElementById('category-products-items');
+        const viewMoreButton = document.querySelector('.ec-viewMoreButton a');
+        
+        categoryTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+        // アクティブクラスの切り替え
+            categoryTags.forEach(t => t.classList.remove('is-active'));
+            this.classList.add('is-active');
+        
+        // CSRFトークンをAjaxリクエストに追加
+        // 下記のURLの構築方法を変更
+        const blockUrl = '{{ app.request.baseUrl }}/block/category_products';
+        fetch(`${blockUrl}?category_id=${categoryId}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-Token': '{{ csrf_token('category_products') }}'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                productItemsContainer.innerHTML = html;
+                
+                // 「もっと見る」ボタンのリンク先を更新
+                if (viewMoreButton) {
+                    viewMoreButton.href = `{{ url('product_list') }}?category_id=${categoryId}`;
+                    
+                    // テキストコンテンツを安全に設定
+                    const categoryName = this.textContent.trim();
+                    // エスケープ関数を追加
+                    function escapeHtml(text) {
+                        const map = {
+                            '&': '&amp;',
+                            '<': '&lt;',
+                            '>': '&gt;',
+                            '"': '&quot;',
+                            "'": '&#039;'
+                        };
+                        return text.replace(/[&<>"']/g, m => map[m]);
+                    }
+                    viewMoreButton.textContent = `${escapeHtml(categoryName)}の商品をもっと見る`;
+                }
+            })
+            .catch(error => {
+                console.error('商品データの取得に失敗しました:', error);
+                productItemsContainer.innerHTML = '<div class="ec-emptyMessage"><p>商品データの取得に失敗しました</p></div>';
+            });
+        });
+    });
+});
+    </script>
+</div>
