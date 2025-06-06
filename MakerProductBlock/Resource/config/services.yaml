@@ -1,0 +1,31 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Plugin\MakerProductBlock\:
+        resource: '../..'
+        exclude: '../../../{Entity,Resource,tests}'
+
+    Plugin\MakerProductBlock\Service\MakerService:
+        public: true
+        autowire: true
+            
+    Plugin\MakerProductBlock\Controller\:
+        resource: '../../Controller'
+        tags: ['controller.service_arguments']
+            
+    Plugin\MakerProductBlock\Repository\MakerBlockRepository:
+        autowire: true
+        public: true
+        
+    Plugin\MakerProductBlock\MakerProductBlockEvent:
+        arguments:
+            - '@Plugin\MakerProductBlock\Service\MakerService'
+        tags: ['kernel.event_subscriber']
+
+
+twig:
+    paths:
+        '%kernel.project_dir%/app/Plugin/MakerProductBlock/Resource/template': MakerProductBlock

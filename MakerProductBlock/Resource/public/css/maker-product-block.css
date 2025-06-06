@@ -1,0 +1,171 @@
+.ec-maker-block {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.ec-maker-block__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+}
+
+/* 水平に並べるスタイル */
+.ec-maker-block__carousel {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    position: relative;
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch; /* iOSでのスムーススクロール */
+    scrollbar-width: none; /* Firefox用スクロールバー非表示 */
+    -ms-overflow-style: none; /* IE用スクロールバー非表示 */
+}
+
+/* Chrome用スクロールバー非表示 */
+.ec-maker-block__carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* 個別の商品アイテム */
+.ec-maker-block__item {
+    flex: 0 0 auto;
+    width: 25%; /* 横に4つ表示 */
+    box-sizing: border-box;
+    padding: 10px;
+    position: relative;
+    outline: none;
+}
+
+/* 商品リンク */
+.ec-maker-block__item a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 商品画像エリア */
+.ec-maker-block__item-image {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 75%; /* 商品画像の比率を4:3に */
+    margin-bottom: 10px;
+    overflow: hidden;
+    background-color: #f8f8f8;
+}
+
+/* 商品画像 */
+.ec-maker-block__item-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 商品名 */
+.ec-maker-block__item-name {
+    font-size: 0.875rem;
+    margin-bottom: 5px;
+    height: 2.5em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+/* 商品価格 */
+.ec-maker-block__item-price {
+    font-weight: bold;
+    color: #525263;
+}
+
+/* 次へ・前へボタン */
+.ec-maker-block__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: rgba(82, 82, 99, 0.7);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    border: none;
+    outline: none;
+}
+
+.ec-maker-block__arrow--prev {
+    left: 5px;
+}
+
+.ec-maker-block__arrow--next {
+    right: 5px;
+}
+
+/* ヘッダー部分のスタイル */
+.ec-maker-block__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.ec-maker-block__title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #ccc;
+    margin: 0;
+    flex: 1;
+}
+
+.ec-maker-block__link {
+    font-size: 0.875rem;
+    text-decoration: none;
+    color: #525263;
+    margin-left: 1rem;
+    white-space: nowrap;
+}
+
+.ec-maker-block__link:hover {
+    color: #9a9a9a;
+    text-decoration: underline;
+}
+
+/* メーカー名表示用 */
+.ec-searchnavRole__makerName {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+/* レスポンシブ対応 */
+@media screen and (max-width: 992px) {
+    .ec-maker-block__item {
+        width: 33.333%; /* タブレットでは3つ表示 */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ec-maker-block__item {
+        width: 50%; /* 小さめのタブレットでは2つ表示 */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .ec-maker-block__item {
+        width: 100%; /* スマホでは1つ表示 */
+    }
+    
+    .ec-maker-block__item-image {
+        padding-top: 66.67%; /* スマホでは比率を3:2に */
+    }
+}

@@ -1,0 +1,9 @@
+﻿name: メーカー商品ブロック
+code: MakerProductBlock
+version: 1.0.0
+service:
+ -Resource/config/services.yaml
+event: Event
+orm.path:
+ - /Resource/doctrine
+

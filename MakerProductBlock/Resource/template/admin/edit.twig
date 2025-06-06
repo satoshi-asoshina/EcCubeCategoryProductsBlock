@@ -1,0 +1,188 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['content', 'plugin'] %}
+
+{% block title %}メーカー商品ブロック{% endblock %}
+{% block sub_title %}コンテンツ管理{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_layout.html.twig' %}
+
+{% block stylesheet %}
+{% endblock stylesheet %}
+
+{% block javascript %}
+{% endblock javascript %}
+
+{% block main %}
+<form role="form" method="post">
+    {{ form_widget(form._token) }}
+    <div class="c-contentsArea__cols">
+        <div class="c-contentsArea__primaryCol">
+            <div class="c-primaryCol">
+                <div class="card rounded border-0 mb-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-8"><span class="card-title">ブロック設定</span></div>
+                            <div class="col-4 text-right">
+                                <a href="{{ url('maker_product_block_admin_index') }}" class="btn btn-ec-regular" data-tooltip="true" data-placement="top" title="戻る">
+                                    <i class="fa fa-backward"></i>
+                                    <span class="ml-2 d-inline-block">戻る</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <span>ブロックID</span>
+                            </div>
+                            <div class="col">
+                                {% if MakerBlock.id %}
+                                    {{ MakerBlock.id }}
+                                {% else %}
+                                    (新規登録時に自動採番)
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="メーカーを選択してください。">
+                                    <span>{{ form_label(form.maker_id) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                                <span class="badge badge-primary ml-1">必須</span>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.maker_id) }}
+                                {{ form_errors(form.maker_id) }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="ブロック名を入力してください。">
+                                    <span>{{ form_label(form.block_name) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                                <span class="badge badge-primary ml-1">必須</span>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.block_name) }}
+                                {{ form_errors(form.block_name) }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="ブロックに表示する商品の数を入力してください。">
+                                    <span>{{ form_label(form.product_count) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                                <span class="badge badge-primary ml-1">必須</span>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.product_count) }}
+                                {{ form_errors(form.product_count) }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="カルーセルで一度に表示する商品の数（PC版）を入力してください。">
+                                    <span>{{ form_label(form.visible_count) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                                <span class="badge badge-primary ml-1">必須</span>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.visible_count) }}
+                                {{ form_errors(form.visible_count) }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="カルーセルで一度に表示する商品の数（スマホ版）を入力してください。">
+                                    <span>{{ form_label(form.visible_count_sp) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                                <span class="badge badge-primary ml-1">必須</span>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.visible_count_sp) }}
+                                {{ form_errors(form.visible_count_sp) }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="商品の表示順を選択してください。">
+                                    <span>{{ form_label(form.sort_type) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                                <span class="badge badge-primary ml-1">必須</span>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.sort_type) }}
+                                {{ form_errors(form.sort_type) }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="ブロックを表示するかどうかを選択します。">
+                                    <span>{{ form_label(form.is_enabled) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                                <span class="badge badge-primary ml-1">必須</span>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.is_enabled) }}
+                                {{ form_errors(form.is_enabled) }}
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-2">
+                            <div class="col-3">
+                                <div class="d-inline-block" data-tooltip="true" data-placement="top" title="ブロックの表示順を指定します。数値が小さいほど先頭に表示されます。">
+                                    <span>{{ form_label(form.sort_no) }}</span>
+                                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                </div>
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.sort_no) }}
+                                {{ form_errors(form.sort_no) }}
+                            </div>
+                        </div>
+                        
+                        {{ form_rest(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="c-conversionArea">
+        <div class="c-conversionArea__container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-6">
+                    <div class="c-conversionArea__leftBlockItem">
+                        <a href="{{ url('maker_product_block_admin_index') }}" class="c-baseLink">
+                            <i class="fa fa-backward" aria-hidden="true"></i>
+                            <span>メーカー商品ブロック一覧に戻る</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div id="ex-conversion-action" class="row align-items-center justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-ec-conversion px-5" type="submit">登録</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

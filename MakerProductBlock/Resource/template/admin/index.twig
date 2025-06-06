@@ -1,0 +1,139 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['content', 'plugin'] %}
+
+{% block title %}メーカー商品ブロック{% endblock %}
+{% block sub_title %}コンテンツ管理{% endblock %}
+
+{% form_theme search_form '@admin/Form/bootstrap_4_layout.html.twig' %}
+
+{% block stylesheet %}
+<style>
+    .sort {
+        width: 50px;
+    }
+</style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+<script>
+    $(function() {
+        // 削除ボタン
+        $('.delete-button').on('click', function() {
+            if (confirm('このブロックを削除してもよろしいですか？')) {
+                var form = $(this).closest('form');
+                form.submit();
+            }
+        });
+    });
+</script>
+{% endblock javascript %}
+
+{% block main %}
+<div class="c-contentsArea__cols">
+    <div class="c-contentsArea__primaryCol">
+        <div class="c-primaryCol">
+            <div class="card rounded border-0 mb-4">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="d-inline-block" data-tooltip="true" data-placement="top" title="検索条件を指定">
+                                <a class="btn btn-light" data-toggle="collapse" href="#searchForm" aria-expanded="false" aria-controls="searchForm">
+                                    <i class="fa fa-search"></i>
+                                    <span class="ml-2 d-inline-block">検索</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-right">
+                            <a href="{{ url('maker_product_block_admin_new') }}" class="btn btn-ec-regular" data-tooltip="true" data-placement="top" title="新規作成">
+                                <i class="fa fa-plus-square"></i>
+                                <span class="ml-2 d-inline-block">新規作成</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse show ec-collapse" id="searchForm">
+                    <div class="card-body">
+                        <form method="post" action="{{ url('maker_product_block_admin_index') }}">
+                            <div class="row">
+                                <div class="col-6">
+                                    {{ form_row(search_form.maker_name) }}
+                                </div>
+                                <div class="col-6">
+                                    {{ form_row(search_form.block_name) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    {{ form_row(search_form.status) }}
+                                </div>
+                                <div class="col-6 text-right">
+                                    <button type="submit" class="btn btn-ec-conversion px-5">
+                                        <i class="fa fa-search"></i>
+                                        <span class="ml-2 d-inline-block">検索</span>
+                                    </button>
+                                </div>
+                            </div>
+                            {{ form_rest(search_form) }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card rounded border-0 mb-4">
+                <div class="card-body p-0">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th class="border-top-0 pt-2 pb-2 pl-3">ID</th>
+                            <th class="border-top-0 pt-2 pb-2">メーカー</th>
+                            <th class="border-top-0 pt-2 pb-2">ブロック名</th>
+                            <th class="border-top-0 pt-2 pb-2">表示設定</th>
+                            <th class="border-top-0 pt-2 pb-2">表示順</th>
+                            <th class="border-top-0 pt-2 pb-2 pl-5">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for MakerBlock in pagination %}
+                            <tr class="{% if not MakerBlock.is_enabled %}bg-light{% endif %}">
+                                <td class="align-middle pl-3">{{ MakerBlock.id }}</td>
+                                <td class="align-middle">{{ MakerBlock.maker_id }}</td>
+                                <td class="align-middle">{{ MakerBlock.block_name }}</td>
+                                <td class="align-middle">
+                                    {% if MakerBlock.is_enabled %}
+                                        <span class="badge badge-success">表示</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">非表示</span>
+                                    {% endif %}
+                                </td>
+                                <td class="align-middle">{{ MakerBlock.sort_no }}</td>
+                                <td class="align-middle pl-5">
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="{{ url('maker_product_block_admin_edit', {'id': MakerBlock.id}) }}" class="btn btn-ec-actionIcon mr-2" data-tooltip="true" data-placement="top" title="編集">
+                                                <i class="fa fa-pencil-square-o fa-lg text-secondary"></i>
+                                            </a>
+                                            <form action="{{ url('maker_product_block_admin_delete', {'id': MakerBlock.id}) }}" method="post" style="display: inline;">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+                                                <button type="button" class="btn btn-ec-actionIcon mr-2 delete-button" data-tooltip="true" data-placement="top" title="削除">
+                                                    <i class="fa fa-close fa-lg text-secondary"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if pagination.totalItemCount > 0 %}
+                    <div class="row justify-content-md-center mb-4">
+                        {% include '@admin/pager.twig' with { 'pages': pagination.paginationData, 'routes': 'maker_product_block_admin_index' } %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

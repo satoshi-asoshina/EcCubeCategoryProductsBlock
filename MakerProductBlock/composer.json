@@ -1,0 +1,12 @@
+{
+    "name":"ec-cube/maker-product-block",
+    "version":"1.0.0",
+    "description": "メーカー商品ブロックプラグイン",
+    "type": "eccube-plugin",
+    "require": {
+        "ec-cube/plugin-installer":"~0.0.1 || ^2.0"
+    },
+    "extra": {
+        "code":"MakerProductBlock"
+    }
+}

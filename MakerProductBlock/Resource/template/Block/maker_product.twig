@@ -1,0 +1,44 @@
+{% if Products|length > 0 %}
+{# 外部CSSの読み込み #}
+<link rel="stylesheet" href="{{ asset('MakerProductBlock/css/maker-product-block.css', 'plugin') }}" type="text/css">
+
+<div class="ec-maker-block">
+    <div class="ec-maker-block__header">
+        <h2 class="ec-maker-block__title">{{ maker_name }}</h2>
+        <a href="{{ url('product_list') }}?maker_id={{ maker_id }}" class="ec-maker-block__link">
+            {{ 'すべての商品を見る'|trans }} <i class="fas fa-angle-right"></i>
+        </a>
+    </div>
+    
+    <div class="ec-maker-block__carousel" data-visible-count="{{ visible_count|default(4) }}" data-visible-count-sp="{{ visible_count_sp|default(1) }}">
+        {% for Product in Products %}
+            <div class="ec-maker-block__item">
+                <a href="{{ url('product_detail', {'id': Product.id}) }}">
+                    <div class="ec-maker-block__item-image">
+                        {% if Product.getMainListImage|length > 0 %}
+                            <img src="{{ asset(Product.getMainListImage, 'save_image') }}" alt="{{ Product.name }}">
+                        {% else %}
+                            <img src="{{ asset(''|no_image_product, 'save_image') }}" alt="{{ Product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="ec-maker-block__item-name">{{ Product.name }}</div>
+                    <div class="ec-maker-block__item-price">
+                        {% if Product.hasProductClass %}
+                            {% if Product.getPrice02IncTaxMin == Product.getPrice02IncTaxMax %}
+                                {{ Product.getPrice02IncTaxMin|price }}
+                            {% else %}
+                                {{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}
+                            {% endif %}
+                        {% else %}
+                            {{ Product.getPrice02IncTaxMin|price }}
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{# 外部JSの読み込み #}
+<script src="{{ asset('MakerProductBlock/js/maker-product-carousel.js', 'plugin') }}"></script>
+{% endif %}
