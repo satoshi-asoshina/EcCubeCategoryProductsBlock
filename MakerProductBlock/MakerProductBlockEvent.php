@@ -44,13 +44,29 @@ class MakerProductBlockEvent implements EventSubscriberInterface
         if (!$event->hasParameter('meta')) {
             $event->setParameter('meta', []);
         }
-        
+
         // パラメータの安全性確保
         $parameters = $event->getParameters();
+
         if (!isset($parameters['Products'])) {
             $parameters['Products'] = [];
-            $event->setParameters($parameters);
         }
+
+        // レイアウト編集画面などで未定義となる値のデフォルトを設定
+        $defaults = [
+            'maker_id' => null,
+            'maker_name' => '',
+            'visible_count' => 4,
+            'visible_count_sp' => 1,
+        ];
+
+        foreach ($defaults as $key => $value) {
+            if (!isset($parameters[$key])) {
+                $parameters[$key] = $value;
+            }
+        }
+
+        $event->setParameters($parameters);
     }
 
     public function onFrontSnippetTwig(TemplateEvent $event)
